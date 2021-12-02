@@ -2,4 +2,9 @@
 
 using namespace std;
 
-function accuracy() {}  //leave_one_out_cross_validation()
+float accuracy() {
+    leave_one_out_cross_validation(data, current_set, feature_to_add)
+        accuracy = rand;
+
+    end
+}  //leave_one_out_cross_validation()
