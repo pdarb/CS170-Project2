@@ -8,5 +8,6 @@ df = pd.read_csv('Small_data_60.txt', header=None, sep="\s+")
 #print(df)  'Small_data_60.txt'   'LARGE_data__94.txt'
 
 featureSearch(df)
+#crossValidation(df)
 
 

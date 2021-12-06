@@ -15,13 +15,13 @@ def featureSearch(df):
         for k in range (df.shape[1]):
             if (k+1) not in current_set_of_features:
                 print('\tConsider adding feature', k+1)
-                accuracy = crossValidation(df, current_set_of_features, k+2)
+                accuracy = crossValidation(df)
                 #print(accuracy)
 
                 if accuracy > best_so_far:
                     best_so_far = accuracy
                     feature_to_add_at_level.append(k+1)
-                    #print("feature:", feature_to_add_at_level)
+                    print("feature:", feature_to_add_at_level)
         
         current_set_of_features.append(feature_to_add_at_level[-1])
         #print(current_set_of_features)
