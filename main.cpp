@@ -12,6 +12,7 @@
 #include <cmath>
 
 using namespace std;
+using namespace std::chrono;
 
 void featureSearch(vector<vector<double> > &data);
 
@@ -105,19 +106,15 @@ double crossValidation(vector<vector<double> > &data) {
     //cout << "Accuracy value: " << accuracy << endl;
 
     return accuracy;
-};
+}
 
-vector <vector<double> > & modified(vector<vector<double> > &data, vector<int> add_features) {
-
-    vector<vector<double> > mod(data.size(), vector<double> (data[0].size(), 0));
-
+void modified(vector<vector<double> > &data, vector<int> add_features, vector<vector<double> > &mod) {
     for (int row = 0; row < data.size(); row++) {
         mod[row][0] = data[row][0];
         for (int col : add_features) {
             mod[row][col] = data[row][col];
         }
     }
-    return mod;
 }
 
 void print(std::vector <double> const &a) {
@@ -128,7 +125,7 @@ void print(std::vector <double> const &a) {
 
     cout << endl;
 
-};
+}
 
 
 
@@ -138,7 +135,10 @@ int main() {
 
     vector< vector<double> > f;
 
-    dataFile.open("Small_data_60.txt");
+    //Get starting time
+    auto start = high_resolution_clock::now();
+
+    dataFile.open("LARGE_data__94.txt");
 
     if (!dataFile) {
         cout << "Unable to open file" << endl;
@@ -171,10 +171,12 @@ int main() {
 
     dataFile.close();
 
+    //Get ending time
+    auto stop = high_resolution_clock::now();
 
-
-
-
+    auto duration = duration_cast<seconds>(stop - start);
+  
+    cout << "Time taken by function: " << duration.count() << " seconds" << endl;
 
 
     return 0;

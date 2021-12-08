@@ -17,7 +17,6 @@ void featureSearch(vector<vector<double> > &data) {
     double finalAcc = 0.0;
 
     for (int i = 1; i < data[0].size(); i++) {
-        //cout << i+1 << endl;
 
         cout << "On the " << i << "th level of the search tree" << endl;
         int feature_to_add_at_level = 0;
@@ -26,16 +25,14 @@ void featureSearch(vector<vector<double> > &data) {
         for (int k = 1; k < data[0].size(); k++) {
 
             if (find(current_set_of_features.begin(), current_set_of_features.end(), (k)) == current_set_of_features.end()) {
-                //current_set_of_features.push_back(k+1);
             
                 vector<int> feature = current_set_of_features;
                 feature.push_back(k);
 
                 cout << "Consider adding feature " << k << endl;
-
-                vector<vector<double> > temp = modified(data, feature);
+                vector< vector <double> > temp(data.size(), vector<double>(data[0].size(), 0));
+                modified(data, feature, temp);
                 accuracy = crossValidation(temp);
-                //cout << accuracy << endl;
 
                 if (accuracy > best_so_far) {
                     best_so_far = accuracy;
