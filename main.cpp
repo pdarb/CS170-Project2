@@ -14,7 +14,8 @@
 using namespace std;
 using namespace std::chrono;
 
-void featureSearch(vector<vector<double> > &data);
+void forwardSelection(vector<vector<double> > &data);
+void backwardElimination(vector<vector<double> > &data);
 
 double crossValidation(vector<vector<double> > &data) {
 
@@ -28,8 +29,6 @@ double crossValidation(vector<vector<double> > &data) {
 
     double dist = 0.0;
     vector<double> diff;
-
-    //accuracy = rand() % 101;
 
     for (int i = 0; i < data.size(); i++) {
 
@@ -58,8 +57,6 @@ double crossValidation(vector<vector<double> > &data) {
                 // cout << "Values of temp vector: " << endl;
                 // print(temp);
 
-                //set_difference(obj_to_classify.begin(), obj_to_classify.end(), temp.begin(), temp.end(), std::back_inserter(diff));
-
                 vector<double>::iterator it = obj_to_classify.begin();
                 vector<double>::iterator it1 = temp.begin();
                 
@@ -68,10 +65,8 @@ double crossValidation(vector<vector<double> > &data) {
                     diff.push_back(diffVal);
                     //cout << "Differences in row " << j << " is " << diffVal << endl;
                 }
-
-                // cout << "Difference values: " << endl;
-                // print(diff);
                 
+                // Finds Euclidean Distance
                 double dist = sqrt(std::accumulate(diff.begin(), diff.end(), 0.0));
                 //cout << "Euclidean Distance Vals: " << dist << endl;
                 
@@ -108,6 +103,7 @@ double crossValidation(vector<vector<double> > &data) {
     return accuracy;
 }
 
+// Modifies temp vector to include feature to add
 void modified(vector<vector<double> > &data, vector<int> add_features, vector<vector<double> > &mod) {
     for (int row = 0; row < data.size(); row++) {
         mod[row][0] = data[row][0];
@@ -117,6 +113,7 @@ void modified(vector<vector<double> > &data, vector<int> add_features, vector<ve
     }
 }
 
+// Print function to view vector data
 void print(std::vector <double> const &a) {
    std::cout << "The vector elements are : ";
 
@@ -138,7 +135,7 @@ int main() {
     //Get starting time
     auto start = high_resolution_clock::now();
 
-    dataFile.open("LARGE_data__94.txt");
+    dataFile.open("Small_data_60.txt");
 
     if (!dataFile) {
         cout << "Unable to open file" << endl;
@@ -164,7 +161,10 @@ int main() {
              
         }
 
-        featureSearch(f);
+        //forwardSelection(f);
+
+        backwardElimination(f);
+
         //crossValidation(f);
 
     }
@@ -181,22 +181,3 @@ int main() {
 
     return 0;
 }
-
-
-
-// -----------test code (DELETE LATER)-----------
-
-// for (list <double> :: iterator it = obj_to_classify.begin(); it != obj_to_classify.end(); it++) {
-    //     cout << (*it) << endl;
-    // }
-
-    // for (int v = 0; v < obj_to_classify.size(); v++) {
-    //     cout << obj_to_classify.at(v) << endl;
-    // }
-
-    // for(int i = 0; i < diff.size(); i ++) {
-                //     cout << "Differences in row: " << diff.at(i) << endl;
-                // }
-                // for (vector <double> :: iterator it = diff.begin(); it != diff.end(); it++) {
-                //     cout << (*it) << endl;
-                // }
