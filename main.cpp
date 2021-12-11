@@ -38,9 +38,6 @@ double crossValidation(vector<vector<double> > &data) {
             obj_to_classify.push_back(data[i][k]);
         }
         
-        // cout << "There obj to classify vals: " << endl;
-        // print(obj_to_classify);
-        
         //https://stackoverflow.com/questions/8690567/setting-an-int-to-infinity-in-c
 
         NN_distance = numeric_limits<double>::infinity();
@@ -50,12 +47,11 @@ double crossValidation(vector<vector<double> > &data) {
 
             if (j != i) {
                 //cout << "Ask if " << i+1 << " is nearest neighbor with " << j+1 << endl;
+
                 vector<double> temp;
                 for (int t = 1; t < data[j].size(); t++) {
                     temp.push_back(data[j][t]);
                 }
-                // cout << "Values of temp vector: " << endl;
-                // print(temp);
 
                 vector<double>::iterator it = obj_to_classify.begin();
                 vector<double>::iterator it1 = temp.begin();
@@ -63,12 +59,11 @@ double crossValidation(vector<vector<double> > &data) {
                 for (; it1 != temp.end() && it != obj_to_classify.end(); it1++, it++) {
                     double diffVal = pow(((*it) - (*it1)), 2);
                     diff.push_back(diffVal);
-                    //cout << "Differences in row " << j << " is " << diffVal << endl;
                 }
                 
                 // Finds Euclidean Distance
                 double dist = sqrt(std::accumulate(diff.begin(), diff.end(), 0.0));
-                //cout << "Euclidean Distance Vals: " << dist << endl;
+            
                 
                 if (dist < NN_distance) { 
                     NN_distance = dist;
@@ -85,20 +80,19 @@ double crossValidation(vector<vector<double> > &data) {
             num_correctly_classified += 1;
         }
 
+        obj_to_classify.clear();
 
+
+    //------------ Testing Statements ----------------------------------------
         // cout << "Object " << i+1 << " is class " << label_obj_to_classify << endl;
         // cout << "It's nearest_neighbor is " << NN_location << " which is in class " << NN_label << endl;
 
         // cout << "Looping over i, at the " << i+1 << " location" << endl;
         // cout << "The " << i+1 << "th object is in the class " << label_obj_to_classify << endl;
         // cout << endl;
-
-
-        obj_to_classify.clear();
     }
 
     accuracy = num_correctly_classified / data.size();
-    //cout << "Accuracy value: " << accuracy << endl;
 
     return accuracy;
 }
@@ -135,7 +129,9 @@ int main() {
     //Get starting time
     auto start = high_resolution_clock::now();
 
+    //dataFile.open("LARGE_data__94.txt");
     dataFile.open("Small_data_60.txt");
+
 
     if (!dataFile) {
         cout << "Unable to open file" << endl;
@@ -160,12 +156,19 @@ int main() {
             f.push_back(cols);
              
         }
+        int userinp;
+        cout << "Welcome to Pranathi's Feature Selection Algorithm!" << endl;
+        cout << "Choose (1) Forward Selection or (2) Backward Elimination: ";
+        cin >> userinp;
+        cout << endl;
 
-        //forwardSelection(f);
+        if (userinp == 1) {
+            forwardSelection(f);
+        }
 
-        backwardElimination(f);
-
-        //crossValidation(f);
+        else if (userinp == 2) {
+            backwardElimination(f);
+        }
 
     }
 

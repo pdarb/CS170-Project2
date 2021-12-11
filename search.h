@@ -10,6 +10,7 @@
 
 using namespace std;
 
+// Adds best features as we find them
 void forwardSelection(vector<vector<double> > &data) {
 
     vector <int> current_set_of_features; 
@@ -33,6 +34,8 @@ void forwardSelection(vector<vector<double> > &data) {
 
                 cout << "Consider adding feature " << k << endl;
                 vector< vector <double> > temp(data.size(), vector<double>(data[0].size(), 0));
+
+                //Modifying vector data using temp before passing into crossValidation Func.
                 modified(data, feature, temp);
                 accuracy = crossValidation(temp);
 
@@ -53,14 +56,18 @@ void forwardSelection(vector<vector<double> > &data) {
         cout << "Accuracy for feature " << feature_to_add_at_level << " is " << best_so_far << endl;
         
     }
-    
+    cout << "{ ";
     for ( int a : final_set_features ) cout << a << ' ';
-    cout << endl;
+    cout << "}" << endl;
+
     cout << "Accuracy: " << finalAcc << endl; 
     
 };
 
 
+
+
+// Removes weak features as we find them
 void backwardElimination(vector<vector<double> > &data) {
 
     vector <int> current_set_of_features; 
@@ -91,6 +98,8 @@ void backwardElimination(vector<vector<double> > &data) {
                 cout << "Consider removing feature " << k << endl;
                 
                 vector< vector <double> > temp(data.size(), vector<double>(data[0].size(), 0));
+
+                //Modifying vector data using temp before passing into crossValidation Func.
                 modified(data, feature, temp);
                 accuracy = crossValidation(temp);
 
@@ -107,12 +116,16 @@ void backwardElimination(vector<vector<double> > &data) {
             final_set_features = current_set_of_features;
         } 
 
-        cout << "On level " << i << " I removed feature " << feature_to_remove_at_level << " to current set" << endl;
+        cout << "On level " << i << " I removed feature " << feature_to_remove_at_level << " from current set ";
+        //for ( int b : current_set_of_features ) cout << b << ' ';
+        cout << endl;
         cout << "Accuracy for feature " << feature_to_remove_at_level << " is " << best_so_far << endl;
         
     }
     
+    cout << "Best Features: { ";
     for ( int a : final_set_features ) cout << a << ' ';
+    cout << "}";
     cout << endl;
     cout << "Accuracy: " << finalAcc << endl; 
     
